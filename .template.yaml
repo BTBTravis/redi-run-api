@@ -1,0 +1,6 @@
+variables:
+  Project name dns friendly: redi-run-app
+  Description: A app to help track and reccomend running workouts
+features:
+- master:
+    description: Basic template to kickstart Python + Flask Projects
