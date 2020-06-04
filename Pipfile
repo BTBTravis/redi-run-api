@@ -12,6 +12,8 @@ flask = "*"
 flask-cors = "*"
 python-dotenv = "*"
 gunicorn = "*"
+python-jose = "*"
+six = "*"
 
 [requires]
 python_version = "3.7"

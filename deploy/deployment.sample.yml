@@ -22,20 +22,14 @@ spec:
         tier: api
     spec:
       containers:
-      - env:
+      - name: redi-run-app-api
+        env:
         - name: APP_SECRET_KEY
-          valueFrom:
-            configMapKeyRef:
-              key: APP_SECRET_KEY
-              name: redi-run-app-config
-        - name: USER_SECRET_KEY
-          valueFrom:
-            configMapKeyRef:
-              key: USER_SECRET_KEY
-              name: redi-run-app-config
-        image: registry.gitlab.com/btbtravis/redi-run-app:0.0.1
+          value: xxxxxxxxxxxxxxxxxxxxxxxx
+        - name: AUTH0_CLIENT_ID
+          value: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        image: registry.gitlab.com/btbtravis/redi-run-backend:x.x.x
         imagePullPolicy: IfNotPresent
-        name: redi-run-app-api
         ports:
         - containerPort: 5000
           protocol: TCP

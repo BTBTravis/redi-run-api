@@ -1,19 +1,30 @@
 import os
 from functools import wraps
-from flask import Flask, session, redirect, url_for, request 
+
+from flask import g
 from markupsafe import escape
 
+from app.auth import requires_auth, AUTH0_DOMAIN, API_AUDIENCE
 from app import app
 
 auth0_client_id = os.environ['AUTH0_CLIENT_ID']
+api_prefix = '/api/run/v1'
 
-@app.route('/client-info', methods=['GET'])
+@app.route(f'{api_prefix}/client-info', methods=['GET'])
 def handle_client_info():
     """Returns the auth0 client info"""
     return  {
-        'domain': 'travisshears-dev.eu.auth0.com',
-        'client_id': auth0_client_id
+        'domain': AUTH0_DOMAIN,
+        'client_id': auth0_client_id,
+        'audience': API_AUDIENCE
     }
+
+@app.route(f'{api_prefix}/user', methods=['GET'])
+@requires_auth
+def handle_get_user():
+    """Returns an existing user or creates one"""
+    return g.user
+
 
 
 # def authed(f):
