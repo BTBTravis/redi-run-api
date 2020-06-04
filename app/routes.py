@@ -23,7 +23,9 @@ def handle_client_info():
 @requires_auth
 def handle_get_user():
     """Returns an existing user or creates one"""
-    return g.user
+    return {
+        'id': g.user['sub']
+    }
 
 
 
