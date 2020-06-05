@@ -14,6 +14,8 @@ python-dotenv = "*"
 gunicorn = "*"
 python-jose = "*"
 six = "*"
+mongoengine = "*"
+flask-mongoengine = "*"
 
 [requires]
 python_version = "3.7"
