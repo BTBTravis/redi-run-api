@@ -1,4 +1,3 @@
 .env
 __pycache__
 deploy/deployment.yml
-docs/redoc-static.html
