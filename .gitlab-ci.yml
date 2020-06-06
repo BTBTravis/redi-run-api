@@ -22,8 +22,10 @@ pages:
     - cp -rp node_modules/swagger-ui-dist/* gen_docs
     - cp -rp $DOCS_FOLDER/* gen_docs
     - sed -i "s#https://petstore\.swagger\.io/v2/swagger\.json#$SPEC_TO_DISPLAY#g" gen_docs/index.html
+    - mkdir public
+    - cp gen_docs public/docs
   artifacts:
     paths:
-      - gen_docs
+      - public
   only:
     - master
