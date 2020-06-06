@@ -18,12 +18,10 @@ pages:
   before_script:
     - npm install swagger-ui-dist@3.26.0
   script:
-    - mkdir gen_docs
-    - cp -rp node_modules/swagger-ui-dist/* gen_docs
-    - cp -rp $DOCS_FOLDER/* gen_docs
-    - sed -i "s#https://petstore\.swagger\.io/v2/swagger\.json#$SPEC_TO_DISPLAY#g" gen_docs/index.html
     - mkdir public
-    - cp gen_docs public/docs
+    - cp -rp node_modules/swagger-ui-dist/* public
+    - cp -rp $DOCS_FOLDER/* public
+    - sed -i "s#https://petstore\.swagger\.io/v2/swagger\.json#$SPEC_TO_DISPLAY#g" public/index.html
   artifacts:
     paths:
       - public
