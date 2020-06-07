@@ -1,5 +1,4 @@
 import os
-import math
 from functools import wraps
 from pprint import pprint
 
@@ -52,13 +51,6 @@ def handle_user_patch():
 
     return {
         'status': 'success'
-    }
-
-@app.route(f'{api_prefix}/pi', methods=['GET'])
-def handle_pi_get():
-    """Return PI"""
-    return {
-        'number':  math.pi
     }
 
 

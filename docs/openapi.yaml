@@ -84,23 +84,6 @@ paths:
                     type: string
                   domain:
                     type: string
-                    
-  /pi:
-    get:
-      summary: "get pi"
-      description: get pi, number of digets is default python level
-      responses:
-        '200':
-          description: pi
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  number:
-                    type: integer
-                    format: int32
-                    minimum: 0
 
 
 components:
