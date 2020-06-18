@@ -25,9 +25,6 @@ class User():
             self._user[field] = fields[field]
         self._user.save()
 
-
-
-
     def dump(self):
         """Return a object that can be json dumped and is clean of _id"""
         json_user = self._user.to_json()
