@@ -1,11 +1,15 @@
 import json
+import os
 from functools import wraps
+from pprint import pprint
 
+import requests
 from flask import request, g
 from six.moves.urllib.request import urlopen
 from jose import jwt
 
 from app import app
+from app.cache import set_with_ttl, cache_get
 
 # Nearly all this code was copied and refactored from https://auth0.com/docs/quickstart/backend/python/01-authorization
 
@@ -95,3 +99,38 @@ def requires_auth(f):
         raise AuthError({"code": "invalid_header",
                          "description": "Unable to find appropriate key"}, 401)
     return decorated
+
+def delete_auth0_user(auth0_id):
+    token = _get_auth0_token_with_cache()
+    url = f'https://{AUTH0_DOMAIN}/api/v2/users/{auth0_id}'
+    headers = {
+        'authorization': f'Bearer {token}'
+    }
+    res = requests.request("DELETE", url, headers=headers)
+    if (not (res.status_code >= 200 and res.status_code < 400)):
+        raise Exception('failed to delete user from auth0')
+
+
+auth0_token_cache_key = 'auth0_token'
+
+def _get_auth0_token_with_cache():
+    cached_token = cache_get(auth0_token_cache_key)
+    cached_token = cached_token.decode("utf-8") 
+    if cached_token is None:
+        return _get_auth0_token()
+    return cached_token
+
+def _get_auth0_token():
+    url = "https://{AUTH0_DOMAIN}/oauth/token"
+    payload = {
+        "client_id": os.getenv('AUTH0_API_CLIENT_ID'),
+        "client_secret": os.getenv('AUTH0_API_SECRET'),
+        "audience": "https://{AUTH0_DOMAIN}/api/v2/",
+        "grant_type": "client_credentials",
+    }
+    res = requests.request("POST", url, json=payload)
+    data = res.json()
+    token = data['access_token']
+    expires_in = data['expires_in'] - 1000
+    set_with_ttl(auth0_token_cache_key, token, expires_in)
+    return token

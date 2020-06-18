@@ -16,6 +16,8 @@ python-jose = "*"
 six = "*"
 mongoengine = "*"
 flask-mongoengine = "*"
+redis = "*"
+requests = "*"
 
 [requires]
 python_version = "3.7"

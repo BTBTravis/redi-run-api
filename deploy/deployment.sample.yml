@@ -26,7 +26,7 @@ spec:
         env:
         - name: APP_SECRET_KEY
           value: xxxxxxxxxxxxxxxxxxxxxxxx
-        - name: AUTH0_CLIENT_ID
+        - name: AUTH0_BROWSER_CLIENT_ID
           value: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
         image: registry.gitlab.com/btbtravis/redi-run-backend:x.x.x
         imagePullPolicy: IfNotPresent

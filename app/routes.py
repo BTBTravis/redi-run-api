@@ -6,11 +6,11 @@ from flask import g, request
 from markupsafe import escape
 from mongoengine import ValidationError
 
-from app.auth import requires_auth, AUTH0_DOMAIN, API_AUDIENCE
+from app.auth import requires_auth, AUTH0_DOMAIN, API_AUDIENCE, delete_auth0_user
 from app.user import User
 from app import app
 
-auth0_client_id = os.environ['AUTH0_CLIENT_ID']
+auth0_client_id = os.environ['AUTH0_BROWSER_CLIENT_ID']
 api_prefix = '/api/run/v1'
 
 @app.route(f'{api_prefix}/client-info', methods=['GET'])
@@ -38,7 +38,7 @@ def handle_user_delete():
     try:
         user = User(auth0_id)
         user.delete()
-        # TODO: also delete from auth0
+        delete_auth0_user(auth0_id)
         return {
             'status': 'success'
         }
