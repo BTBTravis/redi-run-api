@@ -1,8 +1,8 @@
 openapi: 3.0.3
 info:
   description: "Backend for student project [REDI Run](https://github.com/redi-js-teachers/js_sprint_2020_final_project_khomtali)."
-  version: 0.0.5
-  title: REDI Run Backend
+  version: 0.1.0
+  title: REDI Run API
   contact:
     name: Travis Shears
     email: redirun@travisshears.com
@@ -60,6 +60,25 @@ paths:
                   status:
                     type: string
                     example: success
+    delete:
+      tags:
+      - user
+      security: 
+      - user_auth:
+        - write:user
+      summary: deletes user from mongo and auth0
+      description: Takes the user id from security token and deletes the user from mongo then makes an api call to Auth0 to also delete the user from there. 
+      responses:
+        '200':
+          description: changes applied
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
                 
               
   /client-info:
@@ -99,10 +118,6 @@ components:
           type: integer
           format: int32
           minimum: 0
-        name:
-          type: string
-        nickname:
-          type: string
     editable_user_fields: # user fields that can be edited
       type: object
       properties:
@@ -114,10 +129,7 @@ components:
           type: integer
           format: int32
           minimum: 0
-        name:
-          type: string
-        nickname:
-          type: string
+      
           
 
   securitySchemes:
