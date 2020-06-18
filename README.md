@@ -1,18 +1,24 @@
 # REDI Run Backend
 
-This is a little python flask app that serves as a backend for the [redi run project](https://github.com/redi-js-teachers/js_sprint_2020_final_project_khomtali)
-
+A API written with python + flask. Directly supports [REDI Run frontend react app](https://github.com/redi-js-teachers/js_sprint_2020_final_project_khomtali)
 
 ## Docs
 
-This api is fully documented under via an openapi.yaml file that builds a static docs site [here](https://btbtravis.gitlab.io/redi-run-backend/#/)
+This api is fully documented via [docs/openapi.yaml](docs/openapi.yaml), the swagger ui can be found **[here](https://btbtravis.gitlab.io/redi-run-backend/#/)**
+
+## Arch
+
+![tech arch diagram](docs/redi_run_arch.png)
 
 ## Development
 
-If you want to run this app locally you'll need a few things
+*Currently @btbtravis is the sole contributer. This information needs to be updated before inviting collaborators*
 
-- mongo db server, setting this up via docker is easiest
-- pytho and pipenv, dependancies in the project are managed via pipenv
+Dev setup requries locally running:
+
+- MongoDB server, in the future a docker-compose.yml will be provided for this
+- Redis server, in the future a docker-compose.yml will be provided for this
+- Python 3.7+ and pipenv as dependencies in the project are managed via pipenv
 
 So the basic setup would look like this:
 
@@ -24,6 +30,6 @@ $ cp .env.sample .env
 *then update .env values*
 ```shell
 $ pipenv install
-$ pipenv shell 
-$ FLASK_APP=redi-run-app.py flask run -p 5001 --reload   
+$ pipenv shell
+$ FLASK_APP=redi-run-app.py flask run -p 5001 --reload
 ```
