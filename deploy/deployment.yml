@@ -29,11 +29,6 @@ spec:
             configMapKeyRef:
               key: APP_SECRET_KEY
               name: redi-run-app-config
-        - name: AUTH0_BROWSER_CLIENT_ID
-          valueFrom:
-            configMapKeyRef:
-              key: AUTH0_BROWSER_CLIENT_ID
-              name: redi-run-app-config
         - name: MONGO_USER
           valueFrom:
             configMapKeyRef:
@@ -54,7 +49,27 @@ spec:
             configMapKeyRef:
               key: MONGO_DB
               name: redi-run-app-config
-        image: registry.gitlab.com/btbtravis/redi-run-backend:0.0.5
+        - name: AUTH0_BROWSER_CLIENT_ID
+          valueFrom:
+            configMapKeyRef:
+              key: AUTH0_BROWSER_CLIENT_ID
+              name: redi-run-app-config
+        - name: AUTH0_API_CLIENT_ID
+          valueFrom:
+            configMapKeyRef:
+              key: AUTH0_API_CLIENT_ID
+              name: redi-run-app-config
+        - name: AUTH0_API_SECRET
+          valueFrom:
+            configMapKeyRef:
+              key: AUTH0_API_SECRET
+              name: redi-run-app-config
+        - name: REDIS_HOST
+          valueFrom:
+            configMapKeyRef:
+              key: REDIS_HOST
+              name: redi-run-app-config
+        image: cloud.canister.io:5000/travisshears/redi-run:0.1.1
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 5000
@@ -62,7 +77,7 @@ spec:
         resources: {}
       dnsPolicy: ClusterFirst
       imagePullSecrets:
-      - name: redi-run-app-gitlab
+      - name: canister
       restartPolicy: Always
       schedulerName: default-scheduler
       terminationGracePeriodSeconds: 30

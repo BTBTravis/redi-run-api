@@ -1,11 +1,14 @@
 apiVersion: v1
 data:
   APP_SECRET_KEY: xxxxxxxxxxxxxxxxxxxxxxxx
-  AUTH0_BROWSER_CLIENT_ID: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
   MONGO_USER: xxxxxxxxxxx
   MONGO_PW: xxxxxxxxxxxxxxxxxxx
   MONGO_HOST: xxxxxxxxxxxx
   MONGO_DB: xxxxxxx
+  AUTH0_BROWSER_CLIENT_ID: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  AUTH0_API_CLIENT_ID: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  AUTH0_API_SECRET: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  REDIS_HOST: xxxxxxxxxxxxxxxxxxxxxxxxx
 kind: ConfigMap
 metadata:
   labels:
