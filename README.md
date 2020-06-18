@@ -4,7 +4,9 @@ A API written with python + flask. Directly supports [REDI Run frontend react ap
 
 ## Docs
 
-This api is fully documented via [docs/openapi.yaml](docs/openapi.yaml), the swagger ui can be found **[here](https://btbtravis.gitlab.io/redi-run-backend/#/)**
+This api is fully documented via [docs/openapi.yaml](docs/openapi.yaml), the
+swagger ui can be found
+**[here](https://btbtravis.github.io/redi-run-api/)**
 
 ## Arch
 
