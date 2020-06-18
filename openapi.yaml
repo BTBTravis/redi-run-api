@@ -1,0 +1,127 @@
+openapi: 3.0.3
+info:
+  description: "Backend for student project [REDI Run](https://github.com/redi-js-teachers/js_sprint_2020_final_project_khomtali)."
+  version: 0.0.5
+  title: REDI Run Backend
+  contact:
+    name: Travis Shears
+    email: redirun@travisshears.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+servers:
+- url: https://redi.travisshears.xyz/api/run/v1
+  description: production server running in stabil k8s cluster
+tags:
+- name: "user"
+
+paths:
+  /user:
+    get:
+      tags:
+      - user
+      security: 
+      - user_auth:
+        - write:user
+      summary: "get new or existing user"
+      description: Gets an existing user or creates a new one and returnes it with all of its root properties. The user id is extracted from the auth token so no parameters needed. 
+      responses:
+        '200':
+          description: new or existing user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+    patch:
+      tags:
+      - user
+      security: 
+      - user_auth:
+        - write:user
+      summary: "update fields on a user"
+      description: Update the users root data. **Note:* you can pass one or more fields you want to update. You do not have to pass all of them every time.
+      requestBody:
+        description: "fields to update and their values. can be one or more"
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                fields:
+                  $ref: '#/components/schemas/editable_user_fields'
+      responses:
+        '200':
+          description: changes applied
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                
+              
+  /client-info:
+    get:
+      description: Settings for auth0 client side intergration
+      summary: auth0 settings
+      responses:
+        '200':
+          description: copy of the settings
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  audience:
+                    type: string
+                  client_id:
+                    type: string
+                  domain:
+                    type: string
+
+
+components:
+  schemas:
+    user:
+      type: object
+      required:
+      - auth0_id
+      properties:
+        auth0_id:
+          type: string
+        age:
+          type: integer
+          format: int32
+          minimum: 0
+        resting_heart_rate:
+          type: integer
+          format: int32
+          minimum: 0
+        name:
+          type: string
+        nickname:
+          type: string
+    editable_user_fields: # user fields that can be edited
+      type: object
+      properties:
+        age:
+          type: integer
+          format: int32
+          minimum: 0
+        resting_heart_rate:
+          type: integer
+          format: int32
+          minimum: 0
+        name:
+          type: string
+        nickname:
+          type: string
+          
+
+  securitySchemes:
+    user_auth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
