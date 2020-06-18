@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: redi-run-app
+    tier: api
+  name: redi-run-app
+  namespace: default
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: redi-run-app
+      tier: api
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: redi-run-app
+        tier: api
+    spec:
+      containers:
+      - name: redi-run-app-api
+        env:
+        - name: APP_SECRET_KEY
+          valueFrom:
+            configMapKeyRef:
+              key: APP_SECRET_KEY
+              name: redi-run-app-config
+        - name: AUTH0_CLIENT_ID
+          valueFrom:
+            configMapKeyRef:
+              key: AUTH0_CLIENT_ID
+              name: redi-run-app-config
+        - name: MONGO_USER
+          valueFrom:
+            configMapKeyRef:
+              key: MONGO_USER
+              name: redi-run-app-config
+        - name: MONGO_PW
+          valueFrom:
+            configMapKeyRef:
+              key: MONGO_PW
+              name: redi-run-app-config
+        - name: MONGO_HOST
+          valueFrom:
+            configMapKeyRef:
+              key: MONGO_HOST
+              name: redi-run-app-config
+        - name: MONGO_DB
+          valueFrom:
+            configMapKeyRef:
+              key: MONGO_DB
+              name: redi-run-app-config
+        image: registry.gitlab.com/btbtravis/redi-run-backend:0.0.4
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5000
+          protocol: TCP
+        resources: {}
+      dnsPolicy: ClusterFirst
+      imagePullSecrets:
+      - name: redi-run-app-gitlab
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      terminationGracePeriodSeconds: 30
