@@ -1,3 +1,4 @@
 .env
 __pycache__
 deploy/deployment.yml
+.DS_Store
