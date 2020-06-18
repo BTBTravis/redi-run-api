@@ -103,6 +103,10 @@ components:
           type: integer
           format: int32
           minimum: 0
+        name:
+          type: string
+        nickname:
+          type: string
     user_fields:
       type: object
       properties:

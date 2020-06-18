@@ -54,7 +54,7 @@ spec:
             configMapKeyRef:
               key: MONGO_DB
               name: redi-run-app-config
-        image: registry.gitlab.com/btbtravis/redi-run-backend:0.0.4
+        image: registry.gitlab.com/btbtravis/redi-run-backend:0.0.5
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 5000
