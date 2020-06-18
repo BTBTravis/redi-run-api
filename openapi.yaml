@@ -51,15 +51,9 @@ paths:
                   $ref: '#/components/schemas/editable_user_fields'
       responses:
         '200':
-          description: changes applied
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: string
-                    example: success
+          $ref: '#/components/responses/default_success'
+        '404':
+          $ref: '#/components/responses/cant_find_user'
     delete:
       tags:
       - user
@@ -70,15 +64,10 @@ paths:
       description: Takes the user id from security token and deletes the user from mongo then makes an api call to Auth0 to also delete the user from there. 
       responses:
         '200':
-          description: changes applied
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: string
-                    example: success
+          $ref: '#/components/responses/default_success'
+     
+        '404':
+          $ref: '#/components/responses/cant_find_user'
                 
               
   /client-info:
@@ -102,6 +91,30 @@ paths:
 
 
 components:
+  responses:
+    cant_find_user:
+      description: could not find user
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: error
+              reason:
+                type: string
+                example: no user with id xxxxxxxxxxxxxxxxxxxxxxxx
+    default_success:
+      description: changes applied
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
   schemas:
     user:
       type: object
