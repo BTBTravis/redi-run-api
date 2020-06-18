@@ -35,3 +35,14 @@ $ pipenv install
 $ pipenv shell
 $ FLASK_APP=redi-run-app.py flask run -p 5001 --reload
 ```
+
+# Helpful links for development
+
+- https://redis.io/commands
+- https://realpython.com/python-redis/
+- https://redis-py.readthedocs.io/en/stable/
+- https://2.python-requests.org/en/master/api
+- https://cloud.canister.io/n/travisshears/redi-run
+- https://excalidraw.com/
+- http://docs.mongoengine.org/apireference.html
+- https://auth0.com/docs/api/management/v2#!/Users
