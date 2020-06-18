@@ -1,0 +1,25 @@
+name: Publish OpenAPI Docs
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js 14.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: 14.x
+    - name: Install deps
+      run: npm install swagger-ui-dist@3.26.0
+    - run: mkdir public
+    - run: cp -rp node_modules/swagger-ui-dist/* public
+    - run: cp -rp $DOCS_FOLDER/* public
+    - run: sed -i "s#https://petstore\.swagger\.io/v2/swagger\.json#$SPEC_TO_DISPLAY#g" public/index.html
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./public
