@@ -30,13 +30,23 @@ def handle_user_get():
     user = User(auth0_id)
     return user.dump()
 
-# @app.route(f'{api_prefix}/user', methods=['DELETE'])
-# @requires_auth
-# def handle_user_get():
-#     """Returns an existing user or creates one"""
-#     auth0_id = g.user['sub']
-#     user = User(auth0_id)
-#     return user.dump()
+@app.route(f'{api_prefix}/user', methods=['DELETE'])
+@requires_auth
+def handle_user_delete():
+    """Deletes an existing user"""
+    auth0_id = g.user['sub']
+    try:
+        user = User(auth0_id)
+        user.delete()
+        # TODO: also delete from auth0
+        return {
+            'status': 'success'
+        }
+    except Exception:
+        return {
+            'status': 'error',
+            'readon': 'unknown'
+        }
 
 @app.route(f'{api_prefix}/user', methods=['PATCH'])
 @requires_auth

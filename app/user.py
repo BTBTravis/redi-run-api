@@ -7,8 +7,6 @@ class _User(Document):
     auth0_id = StringField(required=True)
     age = IntField()
     resting_heart_rate = IntField()
-    name = StringField()
-    nickname = StringField()
 
 class User():
     def __init__(self, passed_auth0_id):
@@ -26,6 +24,10 @@ class User():
         for field in fields:
             self._user[field] = fields[field]
         self._user.save()
+    
+    def delete(self):
+        """delete underlying user document"""
+        self._user.delete()
 
     def dump(self):
         """Return a object that can be json dumped and is clean of _id"""
