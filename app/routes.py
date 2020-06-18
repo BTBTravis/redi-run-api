@@ -43,7 +43,8 @@ def handle_user_get():
 def handle_user_patch():
     """Updates fields on a user"""
     req = request.json
-    user = User(req['id'])
+    auth0_id = g.user['sub']
+    user = User(auth0_id)
     try:
         user.update(req['fields'])
     except ValidationError as e:

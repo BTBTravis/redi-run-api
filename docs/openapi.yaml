@@ -24,7 +24,7 @@ paths:
       - user_auth:
         - write:user
       summary: "get new or existing user"
-      description: Gets an existing user or creates a new one and returnes it with all of its properties. The user id is extracted from the auth token so no parameters needed. 
+      description: Gets an existing user or creates a new one and returnes it with all of its root properties. The user id is extracted from the auth token so no parameters needed. 
       responses:
         '200':
           description: new or existing user
@@ -39,20 +39,16 @@ paths:
       - user_auth:
         - write:user
       summary: "update fields on a user"
-      description: preforms updates on a user and returs a status
+      description: Update the users root data. **Note:* you can pass one or more fields you want to update. You do not have to pass all of them every time.
       requestBody:
-        description: "fields to update and their values. can be one or more fields along with the id"
+        description: "fields to update and their values. can be one or more"
         content: 
           application/json:
             schema:
               type: object
               properties:
-                id:
-                  type: string
-                  example: "auth0|5ed93941a11c7f001a157fb9"
-                  description: auth0 id of the user
                 fields:
-                  $ref: '#/components/schemas/user_fields'
+                  $ref: '#/components/schemas/editable_user_fields'
       responses:
         '200':
           description: changes applied
@@ -107,7 +103,7 @@ components:
           type: string
         nickname:
           type: string
-    user_fields:
+    editable_user_fields: # user fields that can be edited
       type: object
       properties:
         age:
@@ -118,6 +114,10 @@ components:
           type: integer
           format: int32
           minimum: 0
+        name:
+          type: string
+        nickname:
+          type: string
           
 
   securitySchemes:
@@ -125,4 +125,3 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
-  
