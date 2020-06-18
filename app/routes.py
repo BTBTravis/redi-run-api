@@ -7,7 +7,7 @@ from markupsafe import escape
 from mongoengine import ValidationError
 
 from app.auth import requires_auth, AUTH0_DOMAIN, API_AUDIENCE, delete_auth0_user
-from app.user import User
+from app.user import User, UserNotFound
 from app import app
 
 auth0_client_id = os.environ['AUTH0_BROWSER_CLIENT_ID']
@@ -26,36 +26,39 @@ def handle_client_info():
 @requires_auth
 def handle_user_get():
     """Returns an existing user or creates one"""
-    auth0_id = g.user['sub']
-    user = User(auth0_id)
-    return user.dump()
+    try:
+        auth0_id = g.user['sub']
+        user = User(auth0_id)
+        return user.dump()
+    except Exception as e:
+        return default_error_responce(e)
 
 @app.route(f'{api_prefix}/user', methods=['DELETE'])
 @requires_auth
 def handle_user_delete():
     """Deletes an existing user"""
-    auth0_id = g.user['sub']
     try:
-        user = User(auth0_id)
+        auth0_id = g.user['sub']
+        user = User(auth0_id, no_create=True)
         user.delete()
-        delete_auth0_user(auth0_id)
+        extra_info = delete_auth0_user(auth0_id)
         return {
-            'status': 'success'
+            'status': 'success',
+            'extra_info': extra_info
         }
-    except Exception:
-        return {
-            'status': 'error',
-            'readon': 'unknown'
-        }
+    except UserNotFound as e:
+        return user_not_found_responce(e)
+    except Exception as e:
+        return default_error_responce(e)
 
 @app.route(f'{api_prefix}/user', methods=['PATCH'])
 @requires_auth
 def handle_user_patch():
     """Updates fields on a user"""
-    req = request.json
-    auth0_id = g.user['sub']
-    user = User(auth0_id)
     try:
+        req = request.json
+        auth0_id = g.user['sub']
+        user = User(auth0_id, no_create=True)
         user.update(req['fields'])
     except ValidationError as e:
         return ({
@@ -67,7 +70,22 @@ def handle_user_patch():
             'status': 'error', 
             'reason': f'cant save key {e}'
         }, 400)
-
+    except UserNotFound as e:
+        return user_not_found_responce(e)
+    except Exception as e:
+        return default_error_responce(e)
     return {
         'status': 'success'
     }
+
+def default_error_responce(e):
+    return {
+        'status': 'error',
+        'reason': str(e)
+    }
+
+def user_not_found_responce(e):
+    return ({
+        'status': 'error',
+        'reason': str(e)
+    }, 404)

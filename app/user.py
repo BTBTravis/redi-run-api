@@ -8,13 +8,19 @@ class _User(Document):
     age = IntField()
     resting_heart_rate = IntField()
 
+class UserError(Exception):
+    """user related exceptions"""
+
+class UserNotFound(UserError):
+    """user related exceptions"""
+
 class User():
-    def __init__(self, passed_auth0_id):
-        # print(f'passed_auth0_id:{passed_auth0_id}')
+    def __init__(self, passed_auth0_id, no_create=False):
         possible_users = _User.objects(auth0_id=passed_auth0_id)
-        # print(f'possible_users len:{len(possible_users) > 0}')
         if len(possible_users) > 0:
             self._user = possible_users[0]
+        elif no_create:
+            raise UserNotFound(f'no user with id {passed_auth0_id}')
         else:
             self._user = _User(auth0_id=passed_auth0_id)
             self._user.save()

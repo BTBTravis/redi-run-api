@@ -109,6 +109,9 @@ def delete_auth0_user(auth0_id):
     res = requests.request("DELETE", url, headers=headers)
     if (not (res.status_code >= 200 and res.status_code < 400)):
         raise Exception('failed to delete user from auth0')
+    return {
+        'status_code': res.status_code
+    }
 
 
 auth0_token_cache_key = 'auth0_token'
