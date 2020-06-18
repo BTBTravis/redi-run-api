@@ -17,7 +17,7 @@ jobs:
     - run: mkdir public
     - run: cp -rp node_modules/swagger-ui-dist/* public
     - run: cp -rp docs/* public
-    - run: sed -i "s#https://petstore\.swagger\.io/v2/swagger\.json#openapi.yaml#g" public/index.html
+    - run: sed -i "s#https://petstore\.swagger\.io/v2/swagger\.json#redi-run-api/openapi.yaml#g" public/index.html
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
       with:
