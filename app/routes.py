@@ -55,8 +55,8 @@ def handle_user_delete():
 @requires_auth
 def handle_user_patch():
     """Updates fields on a user"""
+    req = request.json
     try:
-        req = request.json
         auth0_id = g.user['sub']
         user = User(auth0_id, no_create=True)
         user.update(req['fields'])

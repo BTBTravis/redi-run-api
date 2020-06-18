@@ -69,7 +69,7 @@ spec:
             configMapKeyRef:
               key: REDIS_HOST
               name: redi-run-app-config
-        image: cloud.canister.io:5000/travisshears/redi-run:0.1.1
+        image: cloud.canister.io:5000/travisshears/redi-run:0.1.2
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 5000
