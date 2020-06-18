@@ -7,6 +7,8 @@ class _User(Document):
     auth0_id = StringField(required=True)
     age = IntField()
     resting_heart_rate = IntField()
+    name = StringField()
+    nickname = StringField()
 
 class User():
     def __init__(self, passed_auth0_id):
