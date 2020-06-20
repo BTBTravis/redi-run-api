@@ -100,7 +100,29 @@ def requires_auth(f):
                          "description": "Unable to find appropriate key"}, 401)
     return decorated
 
+def update_root_attributes(auth0_id, fields):
+    """update user attribures that reside on auth0 side"""
+    supported_fields = ['name', 'nickname']
+    update = {}
+    remainder = {}
+    for field in fields:
+        if field in supported_fields:
+            update[field] = fields[field]
+        else:
+            remainder[field] = fields[field]
+    if len(update.keys()) > 0:
+        token = _get_auth0_token_with_cache()
+        url = f'https://{AUTH0_DOMAIN}/api/v2/users/{auth0_id}'
+        headers = {
+            'authorization': f'Bearer {token}'
+        }
+        res = requests.request("PATCH", url, json=update, headers=headers)
+        if (not (res.status_code >= 200 and res.status_code < 400)):
+            raise Exception('failed to update auth0 user')
+    return remainder
+
 def delete_auth0_user(auth0_id):
+    """deletes a user from auth0"""
     token = _get_auth0_token_with_cache()
     url = f'https://{AUTH0_DOMAIN}/api/v2/users/{auth0_id}'
     headers = {
@@ -118,17 +140,16 @@ auth0_token_cache_key = 'auth0_token'
 
 def _get_auth0_token_with_cache():
     cached_token = cache_get(auth0_token_cache_key)
-    cached_token = cached_token.decode("utf-8") 
     if cached_token is None:
         return _get_auth0_token()
-    return cached_token
+    return cached_token.decode("utf-8") 
 
 def _get_auth0_token():
-    url = "https://{AUTH0_DOMAIN}/oauth/token"
+    url = f'https://{AUTH0_DOMAIN}/oauth/token'
     payload = {
         "client_id": os.getenv('AUTH0_API_CLIENT_ID'),
         "client_secret": os.getenv('AUTH0_API_SECRET'),
-        "audience": "https://{AUTH0_DOMAIN}/api/v2/",
+        "audience": f'https://{AUTH0_DOMAIN}/api/v2/',
         "grant_type": "client_credentials",
     }
     res = requests.request("POST", url, json=payload)

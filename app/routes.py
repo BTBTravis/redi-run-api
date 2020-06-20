@@ -6,7 +6,7 @@ from flask import g, request
 from markupsafe import escape
 from mongoengine import ValidationError
 
-from app.auth import requires_auth, AUTH0_DOMAIN, API_AUDIENCE, delete_auth0_user
+from app.auth import requires_auth, AUTH0_DOMAIN, API_AUDIENCE, delete_auth0_user, update_root_attributes
 from app.user import User, UserNotFound
 from app import app
 
@@ -58,8 +58,9 @@ def handle_user_patch():
     req = request.json
     try:
         auth0_id = g.user['sub']
+        remaining_fields = update_root_attributes(auth0_id, req['fields'])
         user = User(auth0_id, no_create=True)
-        user.update(req['fields'])
+        user.update(remaining_fields)
     except ValidationError as e:
         return ({
             'status': 'error', 
@@ -72,17 +73,15 @@ def handle_user_patch():
         }, 400)
     except UserNotFound as e:
         return user_not_found_responce(e)
-    except Exception as e:
-        return default_error_responce(e)
     return {
         'status': 'success'
     }
 
 def default_error_responce(e):
-    return {
+    return ({
         'status': 'error',
         'reason': str(e)
-    }
+    }, 500)
 
 def user_not_found_responce(e):
     return ({
