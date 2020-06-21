@@ -8,6 +8,7 @@ from mongoengine import ValidationError
 
 from app.auth import requires_auth, AUTH0_DOMAIN, API_AUDIENCE, delete_auth0_user, update_root_attributes
 from app.user import User, UserNotFound
+from app.trainings import get_trainings, get_training_types
 from app import app
 
 auth0_client_id = os.environ['AUTH0_BROWSER_CLIENT_ID']
@@ -75,6 +76,14 @@ def handle_user_patch():
         return user_not_found_responce(e)
     return {
         'status': 'success'
+    }
+
+@app.route(f'{api_prefix}/trainings', methods=['get'])
+def handle_trainings_get():
+    """Gets trainings from airtable"""
+    return {
+        'trainings': get_trainings(),
+        'types': get_training_types() 
     }
 
 def default_error_responce(e):
