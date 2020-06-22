@@ -9,6 +9,7 @@ data:
   AUTH0_API_CLIENT_ID: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
   AUTH0_API_SECRET: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
   REDIS_HOST: xxxxxxxxxxxxxxxxxxxxxxxxx
+  AIR_TABLE_API_KEY: xxxxxxxxxxxxxxxxx
 kind: ConfigMap
 metadata:
   labels:
