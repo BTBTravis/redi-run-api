@@ -16,6 +16,61 @@ tags:
 - name: "user"
 
 paths:
+  /trainings:
+    get:
+      summary: Training and Types from AirTable
+      description: A dump of the shared "Training Plans" airtable base. Includes both trainings and training types
+      responses:
+        '200':
+          description: trainings and types
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  trainings:
+                   type: array
+                   items:
+                     type: object
+                     properties:
+                        createdTime:
+                          type: string
+                          example: "2020-06-20T19:50:51.000Z"
+                        id: 
+                          type: string
+                          example: recjpVzaaXdyHqWn
+                        fields:
+                          type: object
+                          description: depends on airtable structure
+                  types:
+                    type: array
+                    items:
+                     type: object
+                     properties:
+                        createdTime:
+                          type: string
+                          example: "2020-06-20T19:50:51.000Z"
+                        id: 
+                          type: string
+                          example: recjpVzaaXdyHqWn
+                        fields:
+                          type: object
+                          description: depends on airtable structure
+                  plans:
+                    type: array
+                    items:
+                     type: object
+                     properties:
+                        createdTime:
+                          type: string
+                          example: "2020-06-20T19:50:51.000Z"
+                        id: 
+                          type: string
+                          example: recjpVzaaXdyHqWn
+                        fields:
+                          type: object
+                          description: depends on airtable structure
+       
   /user:
     get:
       tags:
@@ -39,7 +94,7 @@ paths:
       - user_auth:
         - write:user
       summary: "update fields on a user"
-      description: Update the users root data. **Note:* you can pass one or more fields you want to update. You do not have to pass all of them every time.
+      description: Update the users data. This can be data stored in mongoDB or auth0 user data. **Note:* you can pass one or more fields you want to update. You do not have to pass all of them every time.
       requestBody:
         description: "fields to update and their values. can be one or more"
         content: 
@@ -149,8 +204,6 @@ components:
           type: string
           description: auth0 root attribute
       
-          
-
   securitySchemes:
     user_auth:
       type: http
