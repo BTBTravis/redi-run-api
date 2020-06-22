@@ -8,19 +8,19 @@ from app.cache import set_with_ttl, get_with_cache
 
 def get_trainings():
     """Get trainings from cache falling back to api call"""
-    return json.loads(get_with_cache('Trainings', _get_remote_trainings))
+    return json.loads(get_with_cache('Trainings', _get_remote('Trainings')))
 
 def get_training_types():
     """Get training types from cache falling back to api call"""
-    return json.loads(get_with_cache('Types', _get_remote_types))
+    return json.loads(get_with_cache('Types', _get_remote('Types')))
 
-def _get_remote_trainings():
-    """Get trainings from airtable"""
-    return _get_all_airtable('Trainings')
+def get_plans():
+    """Get plans from cache falling back to api call"""
+    return json.loads(get_with_cache('Plans', _get_remote('Plans')))
 
-def _get_remote_types():
-    """Get training typees from airtable"""
-    return _get_all_airtable('Types')
+def _get_remote(remote_key):
+    """Fn to get data from airtable"""
+    return lambda: _get_all_airtable(remote_key)
 
 def _get_all_airtable(air_table_key):
     """Get some data from airtable trainings base"""
@@ -40,7 +40,10 @@ def _get_all_airtable(air_table_key):
         }
         res = requests.request("GET", url, headers=headers, params=params)
         if (not (res.status_code >= 200 and res.status_code < 400)):
-            raise Exception('failed to update auth0 user')
+            pprint({
+                'status_code': res.status_code
+            })
+            raise Exception('failed to get air table data')
         data = res.json()
         enities.extend(data['records'])
         if 'offset' in data:
@@ -50,5 +53,5 @@ def _get_all_airtable(air_table_key):
             more_data = False
 
     enities_json = json.dumps(enities)
-    set_with_ttl(air_table_key, enities_json, 10)
+    set_with_ttl(air_table_key, enities_json, 60)
     return enities_json

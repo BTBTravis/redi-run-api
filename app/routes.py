@@ -8,7 +8,7 @@ from mongoengine import ValidationError
 
 from app.auth import requires_auth, AUTH0_DOMAIN, API_AUDIENCE, delete_auth0_user, update_root_attributes
 from app.user import User, UserNotFound
-from app.trainings import get_trainings, get_training_types
+from app.trainings import get_trainings, get_training_types, get_plans
 from app import app
 
 auth0_client_id = os.environ['AUTH0_BROWSER_CLIENT_ID']
@@ -83,7 +83,8 @@ def handle_trainings_get():
     """Gets trainings from airtable"""
     return {
         'trainings': get_trainings(),
-        'types': get_training_types() 
+        'types': get_training_types(),
+        'plans': get_plans() 
     }
 
 def default_error_responce(e):
