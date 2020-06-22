@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   description: "Backend for student project [REDI Run](https://github.com/redi-js-teachers/js_sprint_2020_final_project_khomtali)."
-  version: 0.1.0
+  version: 0.2.0
   title: REDI Run API
   contact:
     name: Travis Shears
