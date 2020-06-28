@@ -10,7 +10,7 @@ info:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
 servers:
-- url: https://redi.travisshears.xyz/api/run/v1
+- url: https://apps-v2.travisshears.xyz/run-app/v1
   description: production server running in stabil k8s cluster
 tags:
 - name: "user"
