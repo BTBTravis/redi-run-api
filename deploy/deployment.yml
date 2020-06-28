@@ -74,7 +74,7 @@ spec:
             configMapKeyRef:
               key: AIR_TABLE_API_KEY
               name: redi-run-app-config
-        image: cloud.canister.io:5000/travisshears/redi-run:0.2.0
+        image: cloud.canister.io:5000/travisshears/redi-run:0.2.1
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 5000

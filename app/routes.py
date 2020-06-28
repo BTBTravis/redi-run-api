@@ -12,7 +12,7 @@ from app.trainings import get_trainings, get_training_types, get_plans
 from app import app
 
 auth0_client_id = os.environ['AUTH0_BROWSER_CLIENT_ID']
-api_prefix = '/api/run/v1'
+api_prefix = '/run-app/v1/'
 
 @app.route(f'{api_prefix}/client-info', methods=['GET'])
 def handle_client_info():
